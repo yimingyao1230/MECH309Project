@@ -1,11 +1,10 @@
-%%%                 MECH 535 - Turbomachinery & Propulsion - Project 1                 %%%
+%%%                 MECH 309 - Numerical Methods in Mech Eng                 %%%
 
-% Presented to Prof. Habashi - Fall 2018 - November 29th
+% Presented to Prof Siva Nadarajah Winter 2019 - November 22th
 
-% Ridwan Ahmed      - 260623365
-% Beshr Alalawi     - 260639312
-% Numan Malik       - 260483006
-% Zechen Ren        - 260765431
+%Yiming Yao 260769906
+%Zechen Ren 260765431
+%
 
 clear all
 close all
