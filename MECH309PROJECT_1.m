@@ -10,8 +10,21 @@ clear all
 close all
 clc
 
+%Known Variables
+
+gamma = 1.4; %specific heat ratio for air
+R = 287.058; %J*kg^?1*K^?1 gas constant
+Tinf = 293; %K freestream static temperature
+Pinf = 100; %kN/m^2 freestream static pressure
+x = 50; %x-direction domain
+y = 50; %y-direction domain
 
 %Initializing Variables 
+Nx = 60;
+Ny = 60;
+
+dx = x/NX;
+dy = y/Ny;
 
 %Boundary conditon
 
