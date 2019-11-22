@@ -11,10 +11,6 @@ close all
 clc
 
 
-%Initializing Variables 
+%                 
 
-%Boundary conditon
-
-%Point Jacobi
-
-%Plots
+GIVEN PARAMETERS        
