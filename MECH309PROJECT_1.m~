@@ -29,8 +29,9 @@ Ny = 60; % y direction grid
 dx = x/Nx; % grid discrete distance
 dy = y/Ny; % grid discrete distance
  
-phi = zeros (Nx,Ny); % phi initialization
-miu = zeros (Nx,Ny); % miu initialization
+phi = zeros ((Nx-3)*(Ny-2),1); % phi initialization
+phiNew = zeros ((Nx-3)*(Ny-2),1); % phi initialization
+miu = zeros ((Nx-3)*(Ny-2),1); % miu initialization
 cp = zeros (Nx,Ny); % cp initialization
  
 j = -1; % y direction tracing
@@ -40,7 +41,7 @@ u_ = -1; % local phi derivative to x initialization
 v_ = -1; % local phi derivative to y initialization
  
 m = -1; % Mech number locally
-A = zeros (Nx,Ny); % initialize A matrix
+A = zeros ((Nx-3)*(Ny-2),1); % initialize A matrix
  
 error = Inf;
 count = 0;
@@ -83,5 +84,14 @@ count = 0;
 % Plots
 % pcolor(phi);
 % colorbar;
+for counter = 1:(Nx-3)*(Ny-2)
+    if counter == 1
+        phiNew(counter,1) = 1/(miu(counter-1,1)*A(counter-1,1)/(dx)^2 - 2*(1-miu(counter,1))/(dx)^2 - 2/(dy)^2)...
+            * (-(phi(counter+1,1) * (1-miu(counter,1)*A(counter,1))/(dx)^2)...
+                +phi(counter+Nx-3,1) * 1/(dy)^2 ...
+                -phi(counter-1,1) * (1-miu(counter,1)) * A(counter,1) / (dx)^2 - 2*miu(counter-1,1) * A(counter-1,1) / (dx)^2 ...
+                -phi(counter-2,1) * ( miu(counter-1,1) * A(counter-1,1) )/(dx)^2 ...
+                -phi(counter-))
+    end
+end
 
-phi = zeros ((Nx-3)*(Ny-2),1);
