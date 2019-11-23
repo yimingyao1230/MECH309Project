@@ -9,7 +9,6 @@
 clear all
 close all
 clc
-
  
 %Known Variables
 
@@ -23,34 +22,33 @@ y = 50; %y-direction domain
 Minf = 0.2; %Mach number of freestream
 Uinf = Minf * c; %Flow speed of freestream 
 
-
 %Initializing Variables 
-Nx = 60;
-Ny = 60;
+Nx = 60; % x direction grid
+Ny = 60; % y direction grid
  
-dx = x/Nx;
-dy = y/Ny;
+dx = x/Nx; % grid discrete distance
+dy = y/Ny; % grid discrete distance
  
-phi = zeros (Nx,Ny); 
-miu = zeros (Nx,Ny);
+phi = zeros (Nx,Ny); % phi initialization
+miu = zeros (Nx,Ny); % miu initialization
  
 j = -1; % y direction tracing
 i = -1; % x direction tracing
  
-m = -1; % Mech number local
+u_ = -1; % local phi derivative to x initialization
+v_ = -1; % local phi derivative to y initialization
+
+m = -1; % Mech number locally
 A = zeros (Nx,Ny); % initialize A matrix
- 
-u_ = -1; % local phi derivative to x
-v_ = -1; % local phi derivative to y
 
 error = Inf;
 count = 0;
+
+% START
 %Boundary conditon
-while (error > 10^-2)
+while (error > 10^-2 && count < 1000)
     count = count + 1;
-%phi at third column (i = 3) BC enforced at intialization 
-%phi at second top row (j = Ny-1) BC enforced at intialization 
-%phi at second right column (i = Nx-1) BC enforced at intialization 
+    phikm1 = phi; 
 
 %update phi at second bottom row, neummann at x != 20,21
 %update phi at second bottom row, neummann at x  = 20,21
@@ -65,12 +63,10 @@ end
 
 %A judgement
 
-%A judgement
- 
 u_ = (phi(j,i-1) - phi(j,i+1))/(2*dx) ;
 v_ = (phi(j-1,i) - phi(j-1,i))/(2*dy) ;
-u = (u + Uinf);
-U = sqrt (u_^2 + v_^2);
+u = (u_ + Uinf);
+U = sqrt (u^2 + v_^2);
 m = U / c;
 if m > 1 % supersonic locally
     A (j,i) = (1 - Minf)^ 2 - (gamma + 1) * Minf^2 / Uinf * (phi (j,i) - phi (j,i-2) ) / ( 2* dx);
@@ -98,6 +94,6 @@ for i = 3 : Nx-1
     end
 end
 
-error = norm (phi);
+error = norm (phikm1 - phi);
 end
 %Plots
