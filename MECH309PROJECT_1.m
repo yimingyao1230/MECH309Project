@@ -46,41 +46,42 @@ error = Inf;
 count = 0;
  
 % START
-%Boundary conditon
-while (error > 10^-2 && count < 1000)
-    count = count + 1;
-    phikm1 = phi; 
- 
-%update phi at second bottom row, neummann at x != 20,21
-%update phi at second bottom row, neummann at x  = 20,21
-for  k = 2:Nx-1 
-    if k * x / Nx < 20 || k * x / Nx > 21
-        phi ( Ny, k) = phi ( Ny -1 , k) ;
-    else
-        dydx = CalAirfoil(k * x / Nx);
-        phi ( Ny, k) = phi ( Ny -1 , k) - dy *  Uinf * dydx;
-    end
-end 
-%Point Gaussi-Seidal
-for i = 3 : Nx-1
-    %for j = Ny-1 : -1 :2
-    for j = 2 : Ny-1
-        [a,b,cp(j,i)]= CalA_Miu(phi, i, j, Uinf, Minf, gamma, dx, dy,c);
-        A(j,i) = a;
-        miu(j,i)= b;
-        phi (j,i) = -(...
-             ( ( 1-miu(j,i) * A(j,i))/(dx)^2 ) * phi(j,i+1)...
-            +( ( miu(j,i-1) * A(j,i-1) )/(dx)^2 ) * phi(j,i-2) ...
-            +( ( 1/(dy)^2) * phi(j+1,i) )...
-            +( ( 1/(dy)^2) * phi(j-1,i) )...
-            +( ( (1-miu(j,i)) * A(j,i) / (dx)^2 - 2*miu(j,i-1) * A(j,i-1) / (dx)^2) * phi(j,i-1))...
-            ) / ( miu(j,i-1)*A(j,i-1) / (dx)^2 - 2*(1-miu(j,i))*A(j,i) / (dx)^2 - 2/(dy)^2 );
-    end
-end
- 
-error = norm (phikm1 - phi);
-end
-%Plots
-pcolor(phi);
-colorbar;
+% Boundary conditon
+% while (error > 10^-2 && count < 1000)
+%     count = count + 1;
+%     phikm1 = phi; 
+%  
+% update phi at second bottom row, neummann at x != 20,21
+% update phi at second bottom row, neummann at x  = 20,21
+% for  k = 2:Nx-1 
+%     if k * x / Nx < 20 || k * x / Nx > 21
+%         phi ( Ny, k) = phi ( Ny -1 , k) ;
+%     else
+%         dydx = CalAirfoil(k * x / Nx);
+%         phi ( Ny, k) = phi ( Ny -1 , k) - dy *  Uinf * dydx;
+%     end
+% end 
+% Point Gaussi-Seidal
+% for i = 3 : Nx-1
+%     for j = Ny-1 : -1 :2
+%     for j = 2 : Ny-1
+%         [a,b,cp(j,i)]= CalA_Miu(phi, i, j, Uinf, Minf, gamma, dx, dy,c);
+%         A(j,i) = a;
+%         miu(j,i)= b;
+%         phi (j,i) = -(...
+%              ( ( 1-miu(j,i) * A(j,i))/(dx)^2 ) * phi(j,i+1)...
+%             +( ( miu(j,i-1) * A(j,i-1) )/(dx)^2 ) * phi(j,i-2) ...
+%             +( ( 1/(dy)^2) * phi(j+1,i) )...
+%             +( ( 1/(dy)^2) * phi(j-1,i) )...
+%             +( ( (1-miu(j,i)) * A(j,i) / (dx)^2 - 2*miu(j,i-1) * A(j,i-1) / (dx)^2) * phi(j,i-1))...
+%             ) / ( miu(j,i-1)*A(j,i-1) / (dx)^2 - 2*(1-miu(j,i))*A(j,i) / (dx)^2 - 2/(dy)^2 );
+%     end
+% end
+%  
+% error = norm (phikm1 - phi);
+% end
+% Plots
+% pcolor(phi);
+% colorbar;
 
+phi = zeros ((Nx-3)*(Ny-2),1);
