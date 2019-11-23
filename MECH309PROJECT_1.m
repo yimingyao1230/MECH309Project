@@ -63,7 +63,9 @@ end
 %Point Gaussi-Seidal
 for i = 3 : Nx-1
     for j = 2 : Ny-1
-        [A(j,i),miu(j,i)] = CalA_Miu(phi, i, j, Uinf, Minf, gamma, dx, dy,c);
+        [a,b]= CalA_Miu(phi, i, j, Uinf, Minf, gamma, dx, dy,c);
+        A(j,i) = a;
+        miu(j,i)= b;
         phi (j,i) = -(...
              ( ( 1-miu(j,i) * A(j,i))/(dx)^2 ) * phi(j,i+1)...
             +( ( miu(j,i-1) * A(j,i-1) )/(dx)^2 ) * phi(j,i-2) ...
