@@ -31,6 +31,7 @@ dy = y/Ny; % grid discrete distance
  
 phi = zeros (Nx,Ny); % phi initialization
 miu = zeros (Nx,Ny); % miu initialization
+cp = zeros (Nx,Ny); % cp initialization
  
 j = -1; % y direction tracing
 i = -1; % x direction tracing
@@ -54,16 +55,17 @@ while (error > 10^-2 && count < 1000)
 %update phi at second bottom row, neummann at x  = 20,21
 for  k = 2:Nx-1 
     if k * x / Nx < 20 || k * x / Nx > 21
-        phi ( Nx, k) = phi ( Nx -1 , k) ;
+        phi ( Ny, k) = phi ( Ny -1 , k) ;
     else
         dydx = CalAirfoil(k * x / Nx);
-        phi ( Nx, k) = phi ( Nx -1 , k) + dy *  Uinf * dydx;
+        phi ( Ny, k) = phi ( Ny -1 , k) - dy *  Uinf * dydx;
     end
 end 
 %Point Gaussi-Seidal
 for i = 3 : Nx-1
+    %for j = Ny-1 : -1 :2
     for j = 2 : Ny-1
-        [a,b]= CalA_Miu(phi, i, j, Uinf, Minf, gamma, dx, dy,c);
+        [a,b,cp(j,i)]= CalA_Miu(phi, i, j, Uinf, Minf, gamma, dx, dy,c);
         A(j,i) = a;
         miu(j,i)= b;
         phi (j,i) = -(...
@@ -79,3 +81,6 @@ end
 error = norm (phikm1 - phi);
 end
 %Plots
+pcolor(phi);
+colorbar;
+
