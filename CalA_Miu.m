@@ -1,4 +1,4 @@
-function [A, miu] = CalA_Miu(phi, i, j, Uinf, Minf, gamma, dx, dy)
+function [A, miu] = CalA_Miu(phi, i, j, Uinf, Minf, gamma, dx, dy,c)
     %A judgement
  
     u_ = (phi(j,i-1) - phi(j,i+1))/(2*dx) ;

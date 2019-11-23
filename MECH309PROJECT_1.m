@@ -59,15 +59,11 @@ for  k = 2:Nx-1
         dydx = CalAirfoil(k * x / Nx);
         phi ( Nx, k) = phi ( Nx -1 , k) + dy *  Uinf * dydx;
     end
-end
- 
-%A judgement
-
-[A(j,i),miu(j,i)] = CalA_Miu(phi, i, j, Uinf, Minf, gamma, dx, dy);
- 
+end 
 %Point Gaussi-Seidal
 for i = 3 : Nx-1
     for j = 2 : Ny-1
+        [A(j,i),miu(j,i)] = CalA_Miu(phi, i, j, Uinf, Minf, gamma, dx, dy,c);
         phi (j,i) = -(...
              ( ( 1-miu(j,i) * A(j,i))/(dx)^2 ) * phi(j,i+1)...
             +( ( miu(j,i-1) * A(j,i-1) )/(dx)^2 ) * phi(j,i-2) ...
