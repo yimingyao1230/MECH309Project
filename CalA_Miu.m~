@@ -7,14 +7,17 @@ function [A, miu] = CalA_Miu(phi, i, j, Uinf, Minf, gamma, dx, dy,c)
     U = sqrt (u^2 + v_^2);
     m = U / c;
     if m > 1 % supersonic locally
-        A = (1 - Minf)^ 2 - (gamma + 1) * Minf^2 / Uinf * (phi (j,i) - phi (j,i-2) ) / ( 2* dx);
+        A (j,i) = (1 - Minf)^ 2 - (gamma + 1) * Minf^2 / Uinf * (phi (j,i) - phi (j,i-2) ) / ( 2* dx);
     else % subsonic flow
-        A = (1 - Minf)^ 2 - (gamma + 1) * Minf^2 / Uinf * (phi (j,i+1) - phi (j,i-1) ) / ( 2* dx);
+        A (j,i) = (1 - Minf)^ 2 - (gamma + 1) * Minf^2 / Uinf * (phi (j,i+1) - phi (j,i-1) ) / ( 2* dx);
     end
 
-    if A > 0
-        miu = 0;
+    if A(j,i) > 0
+        miu(j,i) = 0;
     else
-        miu = 1;
+        miu(j,i)= 1;
     end
+    
+    A = A(j,i);
+    miu = 
 end 
