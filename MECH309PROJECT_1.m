@@ -21,11 +21,7 @@ c = 340; %m/s speed of sound, assumed constant ???
 x = 50; %x-direction domain
 y = 50; %y-direction domain
 Minf = 0.2; %Mach number of freestream
-Uinf = Minf * c; %Flow speed of freestream
-toc = 0.08; % thickness ratio
-syms x_; 
-yx = toc * (-2 * x_^2 + 82*x_ -840); % circular-arc defination for airfoil
-dydx = diff(yx,x);
+Uinf = Minf * c; %Flow speed of freestream 
 
 
 %Initializing Variables 
@@ -56,9 +52,11 @@ for  k = 2:Nx-1
     if k * x / Nx < 20 || k * x / Nx > 21
         phi ( Nx, k) = phi ( Nx -1 , k) ;
     else
-        phi ( Nx, k) = phi ( Nx -1 , k) + dy *  Uinf * subs(dydx,x_,(k * x / Nx));
+        dydx = CalAirfoil(k * x / Nx);
+        phi ( Nx, k) = phi ( Nx -1 , k) + dy *  Uinf * dydx;
     end
 end
+
 %A judgement
 
 u = diff (phi(j,i),i);

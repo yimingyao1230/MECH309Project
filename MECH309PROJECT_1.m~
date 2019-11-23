@@ -25,7 +25,8 @@ Uinf = Minf * c; %Flow speed of freestream
 toc = 0.08; % thickness ratio
 syms x_; 
 yx = toc * (-2 * x_^2 + 82*x_ -840); % circular-arc defination for airfoil
-dydx = diff(yx,x);
+%dydx = diff(yx,x);
+dydx = toc
 
 
 %Initializing Variables 
@@ -42,8 +43,10 @@ j = -1;
 i = -1;
 
 error = Inf;
+count = 0;
 %Boundary conditon
 while (error > 10^-2)
+    count = count + 1;
 %phi at third column (i = 3) BC enforced at intialization 
 %phi at second top row (j = Ny-1) BC enforced at intialization 
 %phi at second right column (i = Nx-1) BC enforced at intialization 
@@ -59,6 +62,7 @@ for  k = 2:Nx-1
 end
 %A judgement
 
+u = diff (phi(j,i),i);
 
 %Point Gaussi-Seidal
 for i = 3 : Nx-1
