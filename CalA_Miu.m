@@ -1,8 +1,7 @@
 function [A, miu, cp] = CalA_Miu(phi, counter, Nx, Uinf, Minf, gamma, dx, dy,c)
-    %A judgement
- 
+    %A judgement   
     u_ = (phi(counter+1,1) - phi(counter-1,1))/(2*dx) ;
-    v_ = (phi(counter+(Nx-3),1) - phi(counter-(Nx-3),1))/(2*dy) ;
+    v_ = (phi(counter+(Nx-3),1) - phi(counter-(Nx-3),1))/(2*dy);
     u = (u_ + Uinf);
     U = sqrt (u^2 + v_^2);
     m = U / c;
