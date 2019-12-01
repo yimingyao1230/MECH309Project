@@ -1,13 +1,14 @@
-%%%               MECH 309 - Numerical Methods in Mech Eng                 %%%
+%%%                 MECH 309 - Numerical Methods in Mech Eng                 %%%
  
 % Presented to Prof Siva Nadarajah Winter 2019 - November 22th
  
 %Yiming Yao 260769906
 %Zechen Ren 260765431
 %
-clc
-close all
 clear all
+close all
+clc
+ 
 %% Known Variables
  
 gamma = 1.4; %specific heat ratio for air
@@ -64,6 +65,27 @@ errorlist = nan(1,1000); % Storing error
 %% Question 1
 [phi,miu,A,errorlist,count] = ...
 MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,dydx,dy,dx,count);
+%% plot
+% Preparing Phi into [Nx,Ny] Matrix
+plotphi = zeros(Nx,Ny); % Converted Phi initialization
+for j = 1 : Ny
+    for i = 1 : Nx
+        loc = (j-1) * Ny + i;
+        plotphi(i,j) = phi(loc,1);
+    end
+end
+
+% Problem 2
+% Cp Computing
+cp = zeros (Nx,Ny); % cp initialization
+ for i = 2:Nx-1
+     for j = 1:Ny
+        u_ = (plotphi(2,i+1) - plotphi(2,i-1))/(2*dx) ;
+        cp (i,j)  = -2*u_/Uinf;
+     end
+ end
+
+% semilog (errorlist);
 
 %% Question3
 Minf = 0.8;
@@ -72,7 +94,6 @@ for dx = 0.025:0.025:0.1 % grid discrete distance
     [phi,miu,A,errorlist,count] = ...
         MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,dydx,dy,dx,count);
 end
-
 %% Question4
 dx = 0.05;
 dy = 0.05;

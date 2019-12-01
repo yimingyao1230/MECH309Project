@@ -1,4 +1,4 @@
-function [phi,miu,A,errorlist,count] = MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,dydx,dy,dx,count)
+function [phi,miu,A,errorlist,count] = MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,dydx,dy,dx,count)
 %% Question 1 Use the Gauss-Seidel method to solve the equation along each column
     while error > tol
         %lower boundary
@@ -50,7 +50,7 @@ function [phi,miu,A,errorlist,count] = MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,er
             end
         end
 
-        error = max(max(abs(phiOld - phi)));
+        error = max(max(abs(phiOld - phi)))
         count = count + 1;
         errorlist (count) = error;
     end
