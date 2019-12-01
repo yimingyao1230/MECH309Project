@@ -131,15 +131,25 @@ end
 cp = zeros (Nx,Ny); % cp initialization
  for i = 2:Nx-1
      for j = 1:Ny
-        u_ = (plotphi(2,i+1) - plotphi(2,i-1))/(2*dx) ;
-        cp (i,j)  = -2*u_/Uinf;
+        u_ = (plotphi(i+1,2) - plotphi(i-1,2))/(2*dx) ;
+        cp (i,j)  = 2*u_/Uinf;
      end
  end
+ xaxis = 0:dx:50;
+ figure (21)
+ plot (cp);
+ xlim([19.5/dx,21.5/dx]);
+ ylim([-0.5,1]);
  
+ % Pressure Contour
+ p = nan(Nx,Ny);
+ for i = 2:Nx-1
+     for j = 1:Ny
+        u_ = (plotphi(i+1,2) - plotphi(i-1,2))/(2*dx) ;
+        p(i,j) = Pinf * (1 - gamma*Minf^2 * (u_ /Uinf));
+     end 
+ end
+  figure (22)
+ contour(p)
+% xlim([19.5/dx,21.5/dx]);
  
- 
-
-% semilog (errorlist);
-
-
-
