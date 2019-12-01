@@ -144,13 +144,13 @@ cp = zeros (Nx,Ny); % cp initialization
  % Pressure Contour
  p = nan(Nx,Ny);
  for i = 2:Nx-1
-     for j = 2:Ny-1
-        u_ = (plotphi(i+1,2) - plotphi(i-1,2))/(2*dx) ;
-        p(i,j) = Pinf * (1-gamma*Minf^2* ...
-            ( (u^2 /Uinf))^(gamma/(gamma-1)));
-     end
+     for j = 1:Ny
+        u_ = (plotphi(i+1,j) - plotphi(i-1,j))/(2*dx) ;
+        p(i,j) = Pinf * (1 - gamma*Minf^2 * (u_ /Uinf));
+     end 
  end
-  figure (22)
- contour(p)
- xlim([19.5/dx,21.5/dx]);
+ figure (22)
+ contourf(p)
+ set(gca,'PlotBoxAspectRatio',[2 1 1]);
+% xlim([19.5/dx,21.5/dx]);
  

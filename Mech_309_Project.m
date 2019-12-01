@@ -65,18 +65,55 @@ errorlist = nan(1,1000); % Storing error
 [phi,miu,A,errorlist,count] = ...
 MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,dydx,dy,dx,count);
 
-%% Question3
-Minf = 0.8;
-for dx = 0.025:0.025:0.1 % grid discrete distance
-    dy = dx;
-    [phi,miu,A,errorlist,count] = ...
-        MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,dydx,dy,dx,count);
+%% plot
+% Preparing Phi into [Nx,Ny] Matrix
+plotphi = zeros(Nx,Ny); % Converted Phi initialization
+for j = 1 : Ny
+    for i = 1 : Nx
+        loc = (j-1) * Ny + i;
+        plotphi(i,j) = phi(loc,1);
+    end
 end
 
-%% Question4
-dx = 0.05;
-dy = 0.05;
-for Minf = 0.75:0.02:0.85
-    [phi,miu,A,errorlist,count] = ...
-        MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,dydx,dy,dx,count);
-end
+% Problem 2
+% Cp Computing
+cp = zeros (Nx,Ny); % cp initialization
+ for i = 2:Nx-1
+     for j = 1:Ny
+        u_ = (plotphi(i+1,2) - plotphi(i-1,2))/(2*dx) ;
+        cp (i,j)  = 2*u_/Uinf;
+     end
+ end
+ xaxis = 0:dx:50;
+ figure (21)
+ plot (cp);
+ xlim([19.5/dx,21.5/dx]);
+ ylim([-0.5,1]);
+ 
+ % Pressure Contour
+ p = nan(Nx,Ny);
+ for i = 2:Nx-1
+     for j = 1:Ny
+        u_ = (plotphi(i+1,2) - plotphi(i-1,2))/(2*dx) ;
+        p(i,j) = Pinf * (1 - gamma*Minf^2 * (u_ /Uinf));
+     end 
+ end
+ figure (22)
+ contour(p)
+ set(gca,'PlotBoxAspectRatio',[2 1 1]);
+
+% %% Question3
+% Minf = 0.8;
+% for dx = 0.025:0.025:0.1 % grid discrete distance
+%     dy = dx;
+%     [phi,miu,A,errorlist,count] = ...
+%         MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,dydx,dy,dx,count);
+% end
+% 
+% %% Question4
+% dx = 0.05;
+% dy = 0.05;
+% for Minf = 0.75:0.02:0.85
+%     [phi,miu,A,errorlist,count] = ...
+%         MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,dydx,dy,dx,count);
+% end
