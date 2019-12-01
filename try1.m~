@@ -18,7 +18,7 @@ Pinf = 100; %kN/m^2 freestream static pressure
 C = 340; %m/s speed of sound, assumed constant ???
 x = 50; %x-direction domain
 y = 50; %y-direction domain
-Minf = 0.2; %Mach number of freestream
+Minf = 0.8; %Mach number of freestream
 Uinf = Minf*sqrt(gamma*R*Tinf); %Flow speed of freestream 
 toc = 0.08; % thickness ratio
 xle  = 20;
@@ -33,9 +33,10 @@ Ny = y/dy; % y direction grid
 phi = zeros (Nx*Ny,1); % phi initialization
 phiNew = zeros (Nx*Ny,1); % phi initialization
 miu = zeros (Nx*Ny,1); % miu initialization
-cp = zeros (1,Ny); % cp initialization
+cp = zeros (Nx*Ny,1); % cp initialization
 plotphi = zeros(Nx,Ny);
 
+% PDE variable initialization
 a = zeros (Nx*Ny,1);
 b = zeros (Nx*Ny,1);
 c = zeros (Nx*Ny,1);
@@ -44,22 +45,21 @@ e = zeros (Nx*Ny,1);
 f = zeros (Nx*Ny,1);
 g = zeros (Nx*Ny,1);
  
-j = -1; % y direction tracing
-i = -1; % x direction tracing
- 
+% j = -1; % y direction tracing
+% i = -1; % x direction tracing
+%  
 u_ = -1; % local phi derivative to x initialization
 v_ = -1; % local phi derivative to y initialization
  
 m = -1; % Mech number locally
 A = zeros (Nx*Ny,1); % initialize A matrix
  
-error = Inf;
-tol = 1E-4;
-count = 0;
+error = Inf; % Begining with infinite error
+tol = 1E-4; % Tolerence
+count = 0; % Runtime counting
 
-xspan = linspace(0,x,Nx);
-yspan = linspace(0,y,Ny);
-dydx = toc * (-4 * xspan + 82);
+xspan = linspace(0,x,Nx); % x discrete spacing
+dydx = toc * (-4 * xspan + 82); % 
 dydx(xspan<xle | xspan>xte ) = 0;
 
 errorlist = nan(1,1000);
@@ -93,13 +93,7 @@ while error > tol
             d(loc,1) = (1-miu(loc,1)) * A(loc,1) / (dx)^2 - 2 * miu(loc-1,1) * A(loc-1,1) / (dx)^2;
             e(loc,1) = (1-miu(loc,1)) * A(loc,1) / (dx)^2;
             b(loc,1) = 1 / dy^2;
-            a(loc,1) = miu(loc-1,1) * A(loc-1,1) / (dx)^2 - 2 * ((1-miu(loc,1))*A(loc,1))/(dx)^2 - 2/(dy)^2; 
-        end
-    end
-    
-     for j = 2:(Ny-1)
-        for i = 3:(Nx-1)
-            loc = (j-1) * Ny + i;
+            a(loc,1) = miu(loc-1,1) * A(loc-1,1) / (dx)^2 - 2 * ((1-miu(loc,1))*A(loc,1))/(dx)^2 - 2/(dy)^2;
             phi(loc,1) = -(c(loc,1) * phi(loc-Nx,1) ...
                 + g(loc,1) * phi(loc-2,1) ...
                 + d(loc,1) * phi(loc-1,1) ...
@@ -107,11 +101,9 @@ while error > tol
                 + b(loc,1) * phi(loc+Nx,1) ...
                 ) ./ a(loc,1); 
         end
-     end   
-                
+    end
 
     error = max(max(abs(phiNew - phi)));
-    error
     count = count + 1;
     errorlist (count) = error;
 end
@@ -119,18 +111,21 @@ end
 for j = 1 : Ny
     for i = 1 : Nx
         loc = (j-1) * Ny + i;
-        plotphi(j,i) = phi(loc,1);
+        plotphi(i,j) = phi(loc,1);
     end
 end
+% pcolor(plotphi)
+% colorbar
 
-for j = 1 : Ny
-    for i = 1 : (Nx-1)
-        cp (i,j) = -2 * (plotphi(i+1,j) - plotphi(i,j))/dx / Uinf;
-    end
-end
 
-contour(cp())
+%  for i = 2:Nx-1
+%         u_ = (plotphi(2,i+1) - plotphi(2,i-1))/(2*dx) ;
+%         cp (i)  = -2*u_/Uinf;
+%         
+%  end
 
+pcolor(plotphi)
+colorbar
 % semilog (errorlist);
 
 
