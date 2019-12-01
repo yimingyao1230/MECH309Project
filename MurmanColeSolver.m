@@ -50,7 +50,7 @@ function [phi,miu,A,errorlist,count] = MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,er
             end
         end
 
-        error = max(max(abs(phiOld - phi)));
+        error = max(max(abs(phiOld - phi)))
         count = count + 1;
         errorlist (count) = error;
     end
