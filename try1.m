@@ -14,7 +14,7 @@ clc
 gamma = 1.4; %specific heat ratio for air
 R = 287.058; %J*kg^1*K^1 gas constant
 Tinf = 293; %K freestream static temperature
-Pinf = 100; %kN/m^2 freestream static pressure
+Pinf = 100000; %N/m^2 freestream static pressure
 C = 340; %m/s speed of sound, assumed constant ???
 x = 50; %x-direction domain
 y = 50; %y-direction domain
@@ -127,6 +127,12 @@ for j = 1 : Ny
 end
 
 % Problem 2
+% Error
+semilogy(errorlist)
+xlabel('Iterations')
+ylabel('$L_{\infty}$','interpreter','latex')
+str = join({'Convergence history ','( Mach = ',num2str(Minf),' )'});
+title(str)
 % Cp Computing
 cp = zeros (Nx,Ny); % cp initialization
  for i = 2:Nx-1
@@ -145,11 +151,15 @@ cp = zeros (Nx,Ny); % cp initialization
  p = nan(Nx,Ny);
  for i = 2:Nx-1
      for j = 1:Ny
-        u_ = (plotphi(i+1,2) - plotphi(i-1,2))/(2*dx) ;
+        u_ = (plotphi(j,i+1) - plotphi(j,i-1))/(2*dx) ;
         p(i,j) = Pinf * (1 - gamma*Minf^2 * (u_ /Uinf));
      end 
  end
-  figure (22)
- contour(p)
-% xlim([19.5/dx,21.5/dx]);
- 
+ figure (22)
+ contourf(p)
+ colorbar
+xlim([19.5/dx,21.5/dx]);
+ylim([0,10]);
+  figure (23)
+
+ contourf(plotphi)
