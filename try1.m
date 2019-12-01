@@ -33,8 +33,6 @@ Ny = y/dy; % y direction grid
 phi = zeros (Nx*Ny,1); % phi initialization
 phiOld = zeros (Nx*Ny,1); % phiOld initialization
 miu = zeros (Nx*Ny,1); % miu initialization
-cp = zeros (Nx*Ny,1); % cp initialization
-plotphi = zeros(Nx,Ny); % Converted Phi initialization
 
 % PDE Coefficient initialization
 a = zeros (Nx*Ny,1);
@@ -120,6 +118,7 @@ while error > tol
 end
 %% plot
 % Preparing Phi into [Nx,Ny] Matrix
+plotphi = zeros(Nx,Ny); % Converted Phi initialization
 for j = 1 : Ny
     for i = 1 : Nx
         loc = (j-1) * Ny + i;
@@ -127,12 +126,15 @@ for j = 1 : Ny
     end
 end
 
-
-%  for i = 2:Nx-1
-%         u_ = (plotphi(2,i+1) - plotphi(2,i-1))/(2*dx) ;
-%         cp (i)  = -2*u_/Uinf;
-%         
-%  end
+% Problem 2
+% Cp Computing
+cp = zeros (Nx,Ny); % cp initialization
+ for i = 2:Nx-1
+     for j = 1:Ny
+        u_ = (plotphi(2,i+1) - plotphi(2,i-1))/(2*dx) ;
+        cp (i,j)  = -2*u_/Uinf;
+     end
+ end
 
 % semilog (errorlist);
 
