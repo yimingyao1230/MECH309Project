@@ -38,7 +38,8 @@ function [phi,miu,A,errorlist,count] = MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,er
                 % Coefficient of (i,j+1))
                 b(loc,1) = 1 / dy^2;
                 % Coefficient of (i,j)
-                a(loc,1) = miu(loc-1,1) * A(loc-1,1) / (dx)^2 - 2 * ((1-miu(loc,1))*A(loc,1))/(dx)^2 - 2/(dy)^2;
+                a(loc,1) = miu(loc-1,1) * A(loc-1,1) / (dx)^2 - ...
+                    2 * ((1-miu(loc,1))*A(loc,1))/(dx)^2 - 2/(dy)^2;
                 % Phi Computing
                 phi(loc,1) = -(c(loc,1) * phi(loc-Nx,1) ...
                     + g(loc,1) * phi(loc-2,1) ...
