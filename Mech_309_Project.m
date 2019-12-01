@@ -64,3 +64,19 @@ errorlist = nan(1,1000); % Storing error
 %% Question 1
 [phi,miu,A,errorlist,count] = ...
 MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,dydx,dy,dx,count);
+
+%% Question3
+Minf = 0.8;
+for dx = 0.025:0.025:0.1 % grid discrete distance
+    dy = dx;
+    [phi,miu,A,errorlist,count] = ...
+        MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,dydx,dy,dx,count);
+end
+
+%% Question4
+dx = 0.05;
+dy = 0.05;
+for Minf = 0.75:0.02:0.85
+    [phi,miu,A,errorlist,count] = ...
+        MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,dydx,dy,dx,count);
+end
