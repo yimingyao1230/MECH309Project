@@ -94,8 +94,8 @@ cp = zeros (Nx,Ny); % cp initialization
  p = nan(Nx,Ny);
  for i = 2:Nx-1
      for j = 1:Ny
-        u_ = (plotphi(i+1,2) - plotphi(i-1,2))/(2*dx) ;
-        p(i,j) = Pinf * (1 - gamma*Minf^2 * (u_ /Uinf));
+        u_ = (plotphi(i+1,j) - plotphi(i-1,j))/(2*dx) ;
+        p(j,i) = Pinf * (1 - gamma*Minf^2 * (u_ /Uinf));
      end 
  end
  figure (22)

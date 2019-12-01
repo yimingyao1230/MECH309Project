@@ -160,6 +160,8 @@ cp = zeros (Nx,Ny); % cp initialization
  colorbar
 xlim([19.5/dx,21.5/dx]);
 ylim([0,10]);
+ set(gca,'PlotBoxAspectRatio',[2 1 1]);
+
   figure (23)
 
  contourf(plotphi)
