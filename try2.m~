@@ -63,8 +63,7 @@ dydx(xspan<xle | xspan>xte ) = 0; % Zero Dy/Dx outside the airfoil range
 errorlist = nan(1,1000); % Storing error
 
 %% Question 1
-[phi,miu,A,errorlist,count] = ...
-MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,dydx,dy,dx,count);
+[phi,miu,A,errorlist,count] = MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,dydx,dy,dx,count);
 %% plot
 % Preparing Phi into [Nx,Ny] Matrix
 plotphi = zeros(Nx,Ny); % Converted Phi initialization
