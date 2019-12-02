@@ -44,13 +44,7 @@ d = zeros (Nx*Ny,1);
 e = zeros (Nx*Ny,1);
 f = zeros (Nx*Ny,1);
 g = zeros (Nx*Ny,1);
- 
-% j = -1; % y direction tracing
-% i = -1; % x direction tracing
-%  
-u_ = -1; % local phi derivative to x initialization
-v_ = -1; % local phi derivative to y initialization
- 
+  
 m = -1; % Mech number locally
 A = zeros (Nx*Ny,1); % initialize A matrix
  
@@ -119,8 +113,6 @@ for Minf = 0.75:0.02:0.89 % grid discrete distance
     legend(legends)
     hold on
     % Cp Ploting
-    colorList =['g','b','r'];
-
     figure (42)
     plot (X,cp(195*2:215*2,1),'o-');
     title('cp');
@@ -135,7 +127,7 @@ for Minf = 0.75:0.02:0.89 % grid discrete distance
     colorbar
     set(gca,'PlotBoxAspectRatio',[2 1 1]);
     xlabel('x')
-    ylabel('$p$','interpreter','latex')
+    ylabel('$P \ \ \ \ kN/m^2$','interpreter','latex')
     str = join({'Pressure ','( Mach = ',num2str(Minf),' )'});
     title(str)
 end

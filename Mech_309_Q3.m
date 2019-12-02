@@ -139,7 +139,7 @@ for dx = [0.025,0.05,0.1] % grid discrete distance
     colorbar
     set(gca,'PlotBoxAspectRatio',[2 1 1]);
     xlabel('x')
-    ylabel('$p$','interpreter','latex')
+    ylabel('$P \ \ \ \ kN/m^2$','interpreter','latex')
     str = join({'Pressure ','( Mach = ',num2str(Minf),' )'});
     title(str)
 end
