@@ -52,7 +52,7 @@ m = -1; % Mech number locally
 A = zeros (Nx*Ny,1); % initialize A matrix
  
 error = Inf; % Begining with infinite error
-tol = 1E-2; % Tolerence
+tol = 1E-4; % Tolerence
 count = 0; % Runtime counting
 
 xspan = linspace(0,x,Nx); % x discrete spacing
