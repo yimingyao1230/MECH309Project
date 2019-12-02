@@ -5,6 +5,8 @@
 %Yiming Yao 260769906
 %Zechen Ren 260765431
 %Randy Li 260616586
+
+% Q2 Driver
 clc
 close all
 clear all
@@ -52,7 +54,7 @@ m = -1; % Mech number locally
 A = zeros (Nx*Ny,1); % initialize A matrix
  
 error = Inf; % Begining with infinite error
-tol = 1E-4; % Tolerence
+tol = 1E-1; % Tolerence
 count = 0; % Runtime counting
 
 xspan = linspace(0,x,Nx); % x discrete spacing
@@ -70,15 +72,12 @@ errorlist = nan(1,1000); % Storing error
 xx = linspace(19.5,21.5,21);
 yy = linspace(0,1,11);
 [X,Y]=meshgrid(xx,yy);
-for l = 1:8
-    legends{l}=  ['Mach # = ' num2str(0.73+0.02*l)];
-    hold on
-end
+l = 1;
+legends{l} = nan(1,8);
 for Minf = 0.75:0.02:0.89 % grid discrete distance
+    legends{l}=  ['Mach # = ' num2str(0.73+0.02*l)];
+    l = l + 1;
     % REinitializing Variables 
-    dx = 0.1; % grid discrete distance
-    dy = dx; % grid discrete distance
-
     Nx = x/dx; % x direction grid
     Ny = y/dy; % y direction grid
 
@@ -115,26 +114,23 @@ for Minf = 0.75:0.02:0.89 % grid discrete distance
     figure (21)
     semilogy(errorlist)
     xlabel('Interations')
-    ylabel('Error')
+    ylabel('$L_{\infty}$','interpreter','latex')
     title('Q2 Error')
     legend(legends)
-    
     hold on
     % Cp Ploting
     figure (22)
-    plot (X(1,:),cp(195:215,1),'o-');
+    plot (X,cp(195:215,1),'o-');
     title('cp');
-%     xlim([19.5/dx,21.5/dx]);
-%     ylim([-0.5,1]);
     xlabel('x')
     ylabel('$C_p$','interpreter','latex')
     title('Q2 Coefficient of Pressure')
     legend(legends)
-    
     hold on
     % Pressure Contour
-    figure 
+    figure
     contourf(X,Y,p(1:11,195:215),20);
+    colorbar
     %xlim([19.5/dx,21.5/dx]);
     set(gca,'PlotBoxAspectRatio',[2 1 1]);
     xlabel('x')
@@ -143,110 +139,3 @@ for Minf = 0.75:0.02:0.89 % grid discrete distance
     title(str)
 end
 hold off
-
-%% Question3
-Minf = 0.8;
-for dx = [0.025,0.05,0.1] % grid discrete distance
-    dy = dx;
-    % REinitializing Variables 
-    Nx = x/dx; % x direction grid
-    Ny = y/dy; % y direction grid
-
-    phi = zeros (Nx*Ny,1); % phi initialization
-    phiOld = zeros (Nx*Ny,1); % phiOld initialization
-    miu = zeros (Nx*Ny,1); % miu initialization
-
-    % PDE Coefficient initialization
-    a = zeros (Nx*Ny,1);
-    b = zeros (Nx*Ny,1);
-    c = zeros (Nx*Ny,1);
-    d = zeros (Nx*Ny,1);
-    e = zeros (Nx*Ny,1);
-    f = zeros (Nx*Ny,1);
-    g = zeros (Nx*Ny,1);
-
-    m = -1; % Mech number locally
-    A = zeros (Nx*Ny,1); % initialize A matrix
-
-    error = Inf; % Begining with infinite error
-    count = 0; % Runtime counting
-
-    xspan = linspace(0,x,Nx); % x discrete spacing
-    dydx = toc * (-4 * xspan + 82); % Dy/Dx
-    dydx(xspan<xle | xspan>xte ) = 0; % Zero Dy/Dx outside the airfoil range 
-
-    errorlist = nan(1,1000); % Storing error
-
-    [plotphi,cp,p,errorlist,count] = ...
-    MurmanColeSolver(phi,miu,A,a,b,c,d,e, ...
-    g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,Pinf,dydx,dy,dx,count);
-
-    % Cp Ploting
-    %Cp Ploting
-    figure (22)
-    plot (cp);
-    title('cp');
-    xlim([19.5/dx,21.5/dx]);
-    ylim([-0.5,1]);
-    xlabel('x')
-    ylabel('$C_p$','interpreter','latex')
-    title('Q2 Coefficient of Pressure')
-    %legend(legends)
-    %hold on
-end
-
-%% Question4
-for Minf = 0.75:0.02:0.85
-    for l = 1:6
-    legends{l}=  ['Mach # = ' num2str(0.73+0.02*l)];
-    end
-end
-for Minf = 0.75:0.02:0.85
-    % REinitializing Variables 
-    dx = 0.025; % grid discrete distance
-    dy = dx; % grid discrete distance
-
-    Nx = x/dx; % x direction grid
-    Ny = y/dy; % y direction grid
-
-    phi = zeros (Nx*Ny,1); % phi initialization
-    phiOld = zeros (Nx*Ny,1); % phiOld initialization
-    miu = zeros (Nx*Ny,1); % miu initialization
-
-    % PDE Coefficient initialization
-    a = zeros (Nx*Ny,1);
-    b = zeros (Nx*Ny,1);
-    c = zeros (Nx*Ny,1);
-    d = zeros (Nx*Ny,1);
-    e = zeros (Nx*Ny,1);
-    f = zeros (Nx*Ny,1);
-    g = zeros (Nx*Ny,1);
-
-    m = -1; % Mech number locally
-    A = zeros (Nx*Ny,1); % initialize A matrix
-
-    error = Inf; % Begining with infinite error
-    count = 0; % Runtime counting
-
-    xspan = linspace(0,x,Nx); % x discrete spacing
-    dydx = toc * (-4 * xspan + 82); % Dy/Dx
-    dydx(xspan<xle | xspan>xte ) = 0; % Zero Dy/Dx outside the airfoil range 
-
-    errorlist = nan(1,1000); % Storing error
-
-    [plotphi,cp,p,errorlist,count] = ...
-    MurmanColeSolver(phi,miu,A,a,b,c,d,e, ...
-    g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,Pinf,dydx,dy,dx,count);
-
-    % Cp Ploting
-    figure (42)
-    plot (cp);
-    title('cp');
-    xlim([19.5/dx,21.5/dx]);
-    ylim([-0.5,1]);
-    xlabel('x')
-    ylabel('$C_p$','interpreter','latex')
-    title('Q4 Coefficient of Pressure')
-    legend(legends)
-    hold on
-end
