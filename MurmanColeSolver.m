@@ -55,7 +55,7 @@ function [plotphi,cp,p,errorlist,count] = MurmanColeSolver(phi,miu,A,a,b,c,d,e,g
         errorlist (count) = error;
     end
 
-%% Plot
+%% Variables for plotting
 % Preparing Phi into [Nx,Ny] Matrix
 plotphi = zeros(Nx,Ny); 
 % Converted Phi initialization
@@ -69,7 +69,7 @@ end
 cp = zeros (Nx,Ny); % cp initialization
  for i = 2:Nx-1
      for j = 1:Ny
-        u_ = (plotphi(i+1,2) - plotphi(i-1,2))/(2*dx) ;
+        u_ = (plotphi(i+1,j) - plotphi(i-1,j))/(2*dx) ;
         cp (i,j)  = 2*u_/Uinf;
      end
  end
