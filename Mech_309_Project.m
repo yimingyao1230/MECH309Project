@@ -127,7 +127,6 @@ hold off
 
 %% Question3
 Minf = 0.8;
-dx = [0.025,0.05,0.1];
 q = 3;
 l = 1;
 legends3{l} = nan(1,8);
