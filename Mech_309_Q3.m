@@ -79,7 +79,7 @@ l = 1;
 legends{l} = nan(1,3);
 for dx = [0.025,0.05,0.1] % grid discrete distance
     legends{l}=  ['Delta # = ' num2str(0.025*(2^(l-1)))];
-    l = l +1;
+    l = l + 1;
     dy = dx;
     xx = linspace(19.5,21.5,2/dx+1);
     yy = linspace(0,1,1/dy+1);

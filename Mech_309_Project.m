@@ -32,27 +32,9 @@ Ny = y/dy; % y direction grid
 phi = zeros (Nx*Ny,1); % phi initialization
 phiOld = zeros (Nx*Ny,1); % phiOld initialization
 miu = zeros (Nx*Ny,1); % miu initialization
-
-% PDE Coefficient initialization
-a = zeros (Nx*Ny,1);
-b = zeros (Nx*Ny,1);
-c = zeros (Nx*Ny,1);
-d = zeros (Nx*Ny,1);
-e = zeros (Nx*Ny,1);
-f = zeros (Nx*Ny,1);
-g = zeros (Nx*Ny,1);
- 
-% j = -1; % y direction tracing
-% i = -1; % x direction tracing
-%  
-u_ = -1; % local phi derivative to x initialization
-v_ = -1; % local phi derivative to y initialization
- 
-m = -1; % Mech number locally
-A = zeros (Nx*Ny,1); % initialize A matrix
  
 error = Inf; % Begining with infinite error
-tol = 1E-4; % Tolerence
+tol = 1E-0; % Tolerence
 count = 0; % Runtime counting
 
 xspan = linspace(0,x,Nx); % x discrete spacing
@@ -64,17 +46,18 @@ errorlist = nan(1,1000); % Storing error
 xx = linspace(19.5,21.5,21);
 yy = linspace(0,1,11);
 [X,Y]=meshgrid(xx,yy);
-% %% Question 1
-% % [phi,miu,A,errorlist,count] = ...
-% % MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,dydx,dy,dx,count);
-% 
+%% Question 1
+% [phi,miu,A,errorlist,count] = ...
+% MurmanColeSolver(phi,miu,A,a,b,c,d,e,g,error,errorlist,tol,Nx,Ny,gamma,Uinf,Minf,dydx,dy,dx,count);
+
 
 %% Problem 2
-for l = 1:8
-    legends{l}=  ['Mach # = ' num2str(0.73+0.02*l)];
-    hold on
-end
+l = 1;
+legends{l} = nan(1,8);
 for Minf = 0.75:0.02:0.89 % grid discrete distance
+    
+    legends{l}=  ['Mach # = ' num2str(0.73+0.02*l)];
+    l = l + 1;
     % REinitializing Variables 
     dx = 0.1; % grid discrete distance
     dy = dx; % grid discrete distance
@@ -133,9 +116,10 @@ for Minf = 0.75:0.02:0.89 % grid discrete distance
     % Pressure Contour
     figure 
     contourf(X,Y,p(1:11,195:215),20);
+    colorbar
     set(gca,'PlotBoxAspectRatio',[2 1 1]);
     xlabel('x')
-    ylabel('$p$','interpreter','latex')
+    ylabel('$P \ \ \ \ kN/m^2$','interpreter','latex')
     str = join({'Pressure ','( Mach = ',num2str(Minf),' )'});
     title(str)
 end
@@ -144,10 +128,12 @@ hold off
 %% Question3
 Minf = 0.8;
 dx = [0.025,0.05,0.1];
-for l = 1:3
-    legends{l}=  ['dx # = ' num2str(dx(1,l))];
-end
+q = 3;
+l = 1;
+legends3{l} = nan(1,8);
 for dx = [0.025,0.05,0.1] % grid discrete distance
+    legends3{l}=  ['Delta # = ' num2str(0.025*(2^(l-1)))];
+    l = l + 1;
     dy = dx;
     % REinitializing Variables 
     Nx = x/dx; % x direction grid
@@ -191,17 +177,16 @@ for dx = [0.025,0.05,0.1] % grid discrete distance
     xlabel('x')
     ylabel('$C_p$','interpreter','latex')
     title('Q3 Coefficient of Pressure')
-    legend(legends)
+    legend(legends3)
     hold on
 end
 hold off
 %% Question4
-for Minf = 0.75:0.02:0.85
-    for l = 1:6
-    legends{l}=  ['Mach # = ' num2str(0.73+0.02*l)];
-    end
-end
-for Minf = 0.75:0.02:0.85
+l = 1;
+legends4{l} = nan(1,8);
+for Minf = 0.75:0.02:0.89 % grid discrete distance
+    legends4{l}=  ['Mach # = ' num2str(0.73+0.02*l)];
+    l = l + 1;
     % REinitializing Variables 
     dx = 0.025; % grid discrete distance
     dy = dx; % grid discrete distance
@@ -247,6 +232,6 @@ for Minf = 0.75:0.02:0.85
     xlabel('x')
     ylabel('$C_p$','interpreter','latex')
     title('Q4 Coefficient of Pressure')
-    legend(legends)
+    legend(legends4)
     hold on
 end
